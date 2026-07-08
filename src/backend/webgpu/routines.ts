@@ -582,8 +582,19 @@ fn main(
 
     let batch = wg_global / tiles_per_batch;
     let tile = wg_global % tiles_per_batch;
-    let tile_row = u32((sqrt(f32(8u * tile + 1u)) - 1.0) * 0.5);
-    let tile_col = tile - tile_row * (tile_row + 1u) / 2u;
+    var tile_row = u32((sqrt(f32(8u * tile + 1u)) - 1.0) * 0.5);
+    // Correct for GPU sqrt rounding around exact triangular-number boundaries.
+    var row_start = tile_row * (tile_row + 1u) / 2u;
+    if (row_start > tile) {
+      tile_row -= 1u;
+      row_start = tile_row * (tile_row + 1u) / 2u;
+    }
+    let next_row_start = (tile_row + 1u) * (tile_row + 2u) / 2u;
+    if (tile >= next_row_start) {
+      tile_row += 1u;
+      row_start = next_row_start;
+    }
+    let tile_col = tile - row_start;
     let local_row = tid / ${CHOLESKY_UPDATE_TILE_SIZE}u;
     let local_col = tid % ${CHOLESKY_UPDATE_TILE_SIZE}u;
     let row_local = tile_row * ${CHOLESKY_UPDATE_TILE_SIZE}u + local_row;

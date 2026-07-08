@@ -66,7 +66,7 @@ suite.each(devicesWithLinalg)("device:%s", (device) => {
           .max(np.abs(reconstructed.sub(x.ref)))
           .div(np.max(np.abs(x)));
 
-        expect(await residual.jsAsync()).toBeLessThan(1e-3);
+        expect(await residual.jsAsync()).toBeLessThan(1e-5);
       });
     }
 
