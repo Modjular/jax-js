@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170" preserveAspectRatio="xMidYMid slice">
+  <rect width="360" height="170" fill="#fbfaf4" />
+  <path d="M66 53 H197 C208 53 216 61 216 72 V90 C216 101 208 109 197 109 H126 L100 129 L107 109 H66 C55 109 47 101 47 90 V72 C47 61 55 53 66 53 Z" fill="#e5e7eb" />
+  <g fill="#475569" opacity="0.72">
+    <rect x="75" y="72" width="76" height="5" rx="2.5" />
+    <rect x="75" y="86" width="112" height="5" rx="2.5" />
+  </g>
+  <path d="M154 76 H295 C306 76 314 84 314 95 V116 C314 127 306 135 295 135 H255 L262 153 L237 135 H154 C143 135 135 127 135 116 V95 C135 84 143 76 154 76 Z" fill="#0f766e" opacity="0.94" />
+  <g fill="#ccfbf1" opacity="0.95">
+    <rect x="165" y="98" width="103" height="5" rx="2.5" />
+    <rect x="165" y="112" width="68" height="5" rx="2.5" />
+  </g>
+</svg>

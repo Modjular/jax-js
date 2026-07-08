@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="heat-abstract-fill" cx="34%" cy="55%" r="72%">
+      <stop offset="0" stop-color="#f04438" />
+      <stop offset="0.28" stop-color="#f6b344" />
+      <stop offset="0.58" stop-color="#65c8b8" />
+      <stop offset="1" stop-color="#244b64" />
+    </radialGradient>
+  </defs>
+  <rect width="360" height="170" fill="#fbfaf4" />
+  <g transform="translate(185 91) scale(1.2) translate(-185 -91)">
+    <path d="M96 108 L134 57 L190 42 L252 63 L278 112 L236 140 L166 132 Z" fill="url(#heat-abstract-fill)" opacity="0.95" />
+    <g fill="none" stroke="#f7f2df" stroke-linejoin="round" stroke-width="1.4" opacity="0.58">
+      <path d="M96 108 L134 57 L190 42 L252 63 L278 112 L236 140 L166 132 Z" />
+      <path d="M134 57 L166 132 M190 42 L166 132 M252 63 L166 132" />
+      <path d="M96 108 L190 42 M134 57 L252 63 M252 63 L236 140 M166 132 L278 112" />
+    </g>
+    <g fill="none" stroke="#fff7c2" stroke-linecap="round" stroke-width="2.4">
+      <ellipse cx="157" cy="96" rx="18" ry="13" transform="rotate(-18 157 96)" />
+      <ellipse cx="157" cy="96" rx="39" ry="27" transform="rotate(-18 157 96)" opacity="0.92" />
+      <ellipse cx="157" cy="96" rx="63" ry="41" transform="rotate(-18 157 96)" opacity="0.76" />
+      <ellipse cx="157" cy="96" rx="87" ry="55" transform="rotate(-18 157 96)" opacity="0.52" />
+    </g>
+    <circle cx="157" cy="96" r="6" fill="#111827" />
+    <circle cx="157" cy="96" r="2.2" fill="#fff7c2" />
+  </g>
+</svg>

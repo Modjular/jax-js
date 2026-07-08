@@ -5,6 +5,7 @@
   import { ArrowUpRight, ExternalLinkIcon } from "@lucide/svelte";
 
   import logo from "$lib/assets/logo.svg";
+  import DemoThumbnail from "$lib/homepage/DemoThumbnail.svelte";
   import MatmulPerfDemo from "$lib/homepage/MatmulPerfDemo.svelte";
   import EmbeddedRepl from "$lib/repl/EmbeddedRepl.svelte";
 
@@ -20,72 +21,101 @@
 
   let installMode = $state<"npm" | "web">("npm");
 
-  const links = [
-    {
-      title: "GitHub Repository",
-      href: "https://github.com/ekzhang/jax-js",
-      description: "Get started with jax-js and check out the tutorial.",
-    },
-    {
-      title: "REPL",
-      href: resolve("/repl"),
-      description: "Try out the library in this browser-based REPL.",
-    },
-    {
-      title: "API Reference",
-      href: "https://jax-js.com/docs/",
-      description: "View the full API documentation.",
-    },
+  const examples: {
+    title: string;
+    href: string;
+    thumbnail: string;
+    description: string;
+  }[] = [
     {
       title: "Gemma 3 Chat",
       href: resolve("/chat"),
-      description: "Run a small language model locally in your browser.",
-    },
-    {
-      title: "Kyutai Pocket TTS",
-      href: resolve("/tts"),
-      description: "Voice cloning AI model that runs in your browser.",
-    },
-    {
-      title: "Whisper ASR",
-      href: resolve("/whisper"),
-      description: "Transcribe audio locally with OpenAI Whisper.",
-    },
-    {
-      title: "MNIST Training",
-      href: resolve("/mnist"),
-      description: "Demo of training a neural network on MNIST.",
+      thumbnail: "chat",
+      description:
+        "Run a small language model locally in your browser, with GPU and CPU-based inference.",
     },
     {
       title: "Neural Cellular Automata",
       href: resolve("/nca-growing"),
-      description: "Grow image patterns with a tiny NCA.",
-    },
-    {
-      title: "MobileCLIP2 Inference",
-      href: resolve("/mobileclip"),
-      description: "Compute embeddings for book passages.",
-    },
-    {
-      title: "Principal Component Analysis",
-      href: resolve("/pca"),
-      description: "Explore principal components of a 3D point cloud.",
+      thumbnail: "nca",
+      description: "Grow image patterns with a tiny differentiable automaton.",
     },
     {
       title: "Heat Method Geodesics",
       href: resolve("/heat-method"),
+      thumbnail: "heat",
       description:
-        "Compute surface distances with interactive geometry processing.",
+        "Compute surface distances on triangle meshes with dense solves.",
+    },
+    {
+      title: "Whisper ASR",
+      href: resolve("/whisper"),
+      thumbnail: "whisper",
+      description: "Transcribe audio locally with OpenAI Whisper.",
+    },
+    {
+      title: "Kyutai Pocket TTS",
+      href: resolve("/tts"),
+      thumbnail: "tts",
+      description: "Voice cloning AI model that runs in your browser.",
+    },
+    {
+      title: "Fluid Simulation",
+      href: resolve("/fluid-sim"),
+      thumbnail: "fluid",
+      description: "Interactive Navier-Stokes flow with WebGPU kernels.",
     },
     {
       title: "D-FINE Detection",
       href: resolve("/d-fine"),
+      thumbnail: "detection",
       description: "Run an ONNX object detector locally with WebGPU.",
+    },
+    {
+      title: "MobileCLIP2 Inference",
+      href: resolve("/mobileclip"),
+      thumbnail: "mobileclip",
+      description: "Compute embeddings for book passages.",
+    },
+    {
+      title: "MNIST Training",
+      href: resolve("/mnist"),
+      thumbnail: "mnist",
+      description: "Train a neural network on handwritten digits in-browser.",
+    },
+    {
+      title: "Principal Component Analysis",
+      href: resolve("/pca"),
+      thumbnail: "pca",
+      description: "Explore components of a 3D point cloud.",
     },
     {
       title: "Benchmarks",
       href: resolve("/bench/matmul"),
-      description: "Micro-benchmarks of jax-js versus other libraries.",
+      thumbnail: "benchmarks",
+      description: "Compare jax-js kernels with other web ML libraries.",
+    },
+  ];
+
+  const resourceLinks: {
+    title: string;
+    href: string;
+    description: string;
+  }[] = [
+    {
+      title: "GitHub Repository",
+      href: "https://github.com/ekzhang/jax-js",
+      description: "Check out the code and tutorial.",
+    },
+    {
+      title: "REPL",
+      href: resolve("/repl"),
+      description: "Try jax-js in this browser-based REPL.",
+    },
+    {
+      title: "API Reference",
+      href: "https://jax-js.com/docs/",
+      description: "View the generated API documentation.",
     },
   ];
 </script>
@@ -212,7 +242,7 @@
   </section>
 
   <!-- Live Editor section -->
-  <section class="px-6 py-12 max-w-screen-xl mx-auto">
+  <section class="px-6 py-8 max-w-screen-xl mx-auto">
     <h2 class="text-xl mb-2">Try it out!</h2>
 
     <p class="mb-4 text-sm text-gray-600">
@@ -235,25 +265,67 @@ console.log(vmap(grad(np.square))(x));
     />
   </section>
 
-  <!-- Learn More section -->
+  <!-- Demo gallery section -->
   <section class="px-6 py-16 max-w-screen-xl mx-auto">
-    <h2 class="text-xl mb-6">Learn more</h2>
+    <div class="mb-6 max-w-2xl">
+      <h2 class="text-xl mb-1">Live examples</h2>
+      <p class="text-sm text-gray-600">
+        Interactive demos for local AI models, simulations, geometry processing,
+        and numerical methods.
+      </p>
+    </div>
 
-    <div class="grid sm:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-4">
-      {#each links as { title, href, description }}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {#each examples as demo}
+        <a href={demo.href} class="demo-card group">
+          <div
+            class="relative overflow-hidden border-b border-black/10 bg-primary/5 h-36 sm:h-40"
+            aria-hidden="true"
+          >
+            <DemoThumbnail name={demo.thumbnail} />
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-lg mb-1 flex items-start justify-between gap-3">
+              <span>{demo.title}</span>
+              <ArrowUpRight
+                size={18}
+                class="text-gray-400 mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </h3>
+            <p class="text-sm text-gray-600 leading-snug">
+              {demo.description}
+            </p>
+          </div>
+        </a>
+      {/each}
+    </div>
+  </section>
+
+  <!-- Resource section -->
+  <section class="px-6 pb-16 max-w-screen-xl mx-auto">
+    <h2 class="text-xl mb-4">Resources</h2>
+    <div class="grid md:grid-cols-3 gap-5">
+      {#each resourceLinks as { title, href, description }}
         <a
           {href}
-          class="bg-primary/5 hover:bg-primary/15 transition-colors px-4 py-3 rounded-lg"
+          class="block rounded-lg border border-black/10 bg-primary/5 px-4 py-3 transition-colors hover:border-primary/40 hover:bg-primary/15"
         >
-          <h3 class="mb-1">
+          <h3 class="mb-1 text-base">
             {title}
-            <ArrowUpRight size={18} class="inline-block text-gray-400 mb-px" />
+            <ArrowUpRight size={17} class="inline-block text-gray-400 mb-px" />
           </h3>
-          <p class="text-sm text-gray-600">
-            {description}
-          </p>
+          <p class="text-sm leading-snug text-gray-600">{description}</p>
         </a>
       {/each}
     </div>
   </section>
 </main>
+
+<style lang="postcss">
+  @reference "$app.css";
+
+  .demo-card {
+    @apply block overflow-hidden rounded-lg border border-black/10 bg-white transition-colors hover:border-primary/45 hover:bg-primary/5;
+  }
+</style>
