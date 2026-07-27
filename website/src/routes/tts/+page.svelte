@@ -333,9 +333,9 @@
       {#if playing && !samplingProgress}
         Warming up {BACKEND_LABEL[backend]}…
       {:else if samplingProgress}
-        {playing ? "Sampling" : "Completed"} · RTF {samplingProgress.realTimeFactor.toFixed(
+        {playing ? "Sampling" : "Completed"} · RTFx {samplingProgress.realTimeFactor.toFixed(
           2,
-        )}× · {samplingProgress.framesPerSecond.toFixed(1)} frame/s ·
+        )} · {samplingProgress.framesPerSecond.toFixed(1)} frame/s ·
         {samplingProgress.framesGenerated} frames
       {/if}
     </div>
