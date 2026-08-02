@@ -623,11 +623,40 @@ export function split(
     sizes = rep(indicesOrSections, partSize);
   } else {
     const indices = indicesOrSections.map((i) => (i < 0 ? i + size : i));
-    sizes = [indices[0]];
-    for (let i = 1; i < indices.length; i++)
-      sizes.push(indices[i] - indices[i - 1]);
-    sizes.push(size - indices[indices.length - 1]);
+    const bounds = [0, ...indices, size];
+    sizes = range(bounds.length - 1).map((i) => bounds[i + 1] - bounds[i]);
   }
+  return splitBySizes(a, sizes, axis);
+}
+
+/**
+ * Split an array into multiple sub-arrays, allowing unevenly sized sections.
+ *
+ * If the axis does not divide evenly, the first sections are one element
+ * larger than the remaining sections.
+ */
+export function arraySplit(
+  a: ArrayLike,
+  indicesOrSections: number | number[],
+  axis: number = 0,
+): Array[] {
+  a = fudgeArray(a);
+  axis = checkAxis(axis, a.ndim);
+  if (typeof indicesOrSections !== "number") {
+    return split(a, indicesOrSections, axis);
+  }
+
+  const size = a.shape[axis];
+  const partSize = Math.floor(size / indicesOrSections);
+  const remainder = size % indicesOrSections;
+  const sizes = [
+    ...rep(remainder, partSize + 1),
+    ...rep(indicesOrSections - remainder, partSize),
+  ];
+  return splitBySizes(a, sizes, axis);
+}
+
+function splitBySizes(a: Array, sizes: number[], axis: number): Array[] {
   // Split in groups of up to 8 outputs, as the transpose rule turns into a
   // Concatenate primitive that has limited input arguments.
   const results: Array[] = [];
