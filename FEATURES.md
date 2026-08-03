@@ -24,7 +24,7 @@ In the tables below, we use a color legend to refer to functions in JAX:
 
 ## [`jax`](https://docs.jax.dev/en/latest/jax.html)
 
-[API docs](https://jax-js.com/docs/modules/_jax-js_jax.html) for these functions.
+[API docs](https://jax-js.com/docs/_jax-js/jax.html) for these functions.
 
 | API                  | Support | Notes                                           |
 | -------------------- | ------- | ----------------------------------------------- |
@@ -109,7 +109,7 @@ mostly meant for compatibility in browsers that don't support WebGPU, but you sh
 possible._
 
 Most operations behave the same way as they do in JAX.
-[API docs](https://jax-js.com/docs/modules/_jax-js_jax.numpy.html).
+[API docs](https://jax-js.com/docs/_jax-js/jax/numpy.html).
 
 | API                   | Support | Notes                                   |
 | --------------------- | ------- | --------------------------------------- |
@@ -694,7 +694,7 @@ These modules are unimplemented:
 - `jax.example_libraries`
 - `jax.experimental`
 
-## [`optax`](https://jax-js.com/docs/_jax-js/onnx)
+## [`optax`](https://jax-js.com/docs/_jax-js/optax)
 
 We have ported a subset of the [Optax](https://github.com/google-deepmind/optax) gradient processing
 and optimization library at `@jax-js/optax`. You can install this alongside `@jax-js/jax`.
