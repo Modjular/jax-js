@@ -1992,6 +1992,17 @@ export const copysign = jit(function copysign(x: Array, y: Array): Array {
 
 /**
  * @function
+ * Element-wise maximum of two arrays, ignoring NaNs.
+ *
+ * Unlike `maximum`, if one of the two elements is NaN, the other is returned.
+ * NaN is only propagated when both elements are NaN.
+ */
+export const fmax = jit(function fmax(x1: Array, x2: Array): Array {
+  return where(greater(x1.ref, x2.ref).add(isnan(x2.ref)), x1, x2);
+});
+
+/**
+ * @function
  * Return element-wise minimum of the input arrays, ignoring NaNs.
  *
  * Unlike `minimum()`, if one of the elements is NaN, the other element is
