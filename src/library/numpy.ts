@@ -1858,6 +1858,45 @@ export function polyadd(a1: ArrayLike, a2: ArrayLike): Array {
 }
 
 /**
+ * Return the difference of two polynomials.
+ *
+ * The first axis contains polynomial coefficients, ordered from highest degree
+ * to the constant term. Remaining axes are broadcast batch dimensions. The
+ * shorter coefficient axis is aligned with the end of the longer one.
+ */
+export function polysub(a1: ArrayLike, a2: ArrayLike): Array {
+  a1 = fudgeArray(a1);
+  a2 = fudgeArray(a2);
+  if (a1.ndim === 0 || a2.ndim === 0) {
+    const [ndim1, ndim2] = [a1.ndim, a2.ndim];
+    a1.dispose();
+    a2.dispose();
+    throw new Error(
+      `polysub: both inputs must be at least 1D arrays, got ${ndim1}D and ${ndim2}D`,
+    );
+  }
+
+  // Match JAX's indexed-update semantics: the input with the longer
+  // coefficient axis determines the result shape. For equal lengths, a1 does.
+  const a2IsLonger = a2.shape[0] > a1.shape[0];
+  let base = a1;
+  let update = a2;
+  if (a2IsLonger) [base, update] = [a2, a1];
+
+  const updateShape = [update.shape[0], ...base.shape.slice(1)];
+  try {
+    update = broadcastTo(update, updateShape);
+  } catch (e) {
+    base.dispose();
+    update.dispose();
+    throw e;
+  }
+  const leading = base.shape[0] - update.shape[0];
+  if (leading > 0) update = pad(update, { 0: [leading, 0] });
+  return a2IsLonger ? subtract(update, base) : subtract(base, update);
+}
+
+/**
  * @function Compute the cross product of two arrays.
  *
  * Supports 2D (scalar result) and 3D cross products, with optional axis
