@@ -1224,6 +1224,14 @@ export function diag(v: ArrayLike, k = 0): Array {
 }
 
 /**
+ * Create a two-dimensional array with the flattened input on the k-th
+ * diagonal.
+ */
+export function diagflat(v: ArrayLike, k = 0): Array {
+  return diag(ravel(v), k);
+}
+
+/**
  * Return the indices to access the main diagonal of an array.
  *
  * This returns a list of `ndim` index arrays, each holding `[0, 1, ..., n-1]`.
